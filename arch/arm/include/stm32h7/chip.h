@@ -71,7 +71,8 @@
     defined (CONFIG_ARCH_CHIP_STM32H753VI) || \
     defined (CONFIG_ARCH_CHIP_STM32H753XI) || \
     defined (CONFIG_ARCH_CHIP_STM32H753ZI) || \
-    defined (CONFIG_ARCH_CHIP_STM32H755II)
+    defined (CONFIG_ARCH_CHIP_STM32H755II) || \
+    defined (CONFIG_ARCH_CHIP_STM32H723VG)
 #elif defined(CONFIG_ARCH_CHIP_STM32H747XI)
 #else
 #  error STM32 H7 chip not identified
@@ -82,12 +83,24 @@
 #if defined(CONFIG_STM32H7_STM32H7X3XX) || defined(CONFIG_STM32H7_STM32H7X5XX)
 /* Memory */
 
+#  if defined(CONFIG_ARCH_CHIP_STM32H723VG)
+/* H723: 128K DTCM + 320K AXI (D1) + 16K SRAM1 + 16K SRAM2 (D2)
+ *       + 16K SRAM4 (D3) + 4K backup SRAM = 564 Kb total (ST datasheet) */
+
+#    define STM32H7_SRAM_SIZE             (320*1024)  /* 320Kb SRAM on AXI bus Matrix (D1) */
+#    define STM32H7_SRAM1_SIZE            (16*1024)   /*  16Kb SRAM1 on AHB bus Matrix (D2) */
+#    define STM32H7_SRAM2_SIZE            (16*1024)   /*  16Kb SRAM2 on AHB bus Matrix (D2) */
+#    define STM32H7_SRAM3_SIZE            (0)         /*  No SRAM3 on H723 */
+#    define STM32H7_SRAM123_SIZE          (32*1024)   /*  32Kb SRAM1+2 on AHB bus Matrix (D2) */
+#    define STM32H7_SRAM4_SIZE            (16*1024)   /*  16Kb SRAM4 on AHB bus Matrix (D3) */
+#  else
 #    define STM32H7_SRAM_SIZE             (512*1024)  /* 512Kb SRAM on AXI bus Matrix (D1) */
 #    define STM32H7_SRAM1_SIZE            (128*1024)  /* 128Kb SRAM1 on AHB bus Matrix (D2) */
 #    define STM32H7_SRAM2_SIZE            (128*1024)  /* 128Kb SRAM2 on AHB bus Matrix (D2) */
 #    define STM32H7_SRAM3_SIZE            (32*1024)   /*  32Kb SRAM3 on AHB bus Matrix (D2) */
 #    define STM32H7_SRAM123_SIZE          (288*1024)  /* 128Kb SRAM123 on AHB bus Matrix (D2) */
 #    define STM32H7_SRAM4_SIZE            (64*1024)   /*  64Kb SRAM2 on AHB bus Matrix (D3) */
+#  endif /* CONFIG_ARCH_CHIP_STM32H723VG */
 #  if defined(CONFIG_ARMV7M_HAVE_DTCM)
 #      define STM32H7_DTCM_SRAM_SIZE      (128*1024)  /* 128Kb DTCM SRAM on TCM interface */
 #  else

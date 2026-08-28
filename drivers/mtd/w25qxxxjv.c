@@ -111,6 +111,8 @@
  *                                          Data sequence                   *
  */
 
+#define W25QXXXJV_READ             0x03  /* Read Data (single line):        *
+                                          *   0x03 | ADDR | data...         */
 #define W25QXXXJV_FAST_READ_QUADIO 0xeb  /* Fast Read Quad I/O:             *
                                           *   0xeb | ADDR | data...         */
 
@@ -950,11 +952,15 @@ static int w25qxxxjv_read_byte(FAR struct w25qxxxjv_dev_s *priv,
 
   finfo("address: %08lx nbytes: %d\n", (long)address, (int)buflen);
 
-  meminfo.flags   = QSPIMEM_READ | QSPIMEM_QUADIO;
+  /* Single-line Read Data (0x03): the DMMC02 OCTOSPI port drives the
+   * W25Q64JV with a 1-line data phase.  Quad-I/O fast read (0xeb) returns
+   * misaligned data with this controller setup and breaks littlefs
+   * (ENOSPC), so use the robust single-line command. */
+  meminfo.flags   = QSPIMEM_READ;
   meminfo.addrlen = priv->addresslen;
-  meminfo.dummies = CONFIG_W25QXXXJV_DUMMIES;
+  meminfo.dummies = 0;
   meminfo.buflen  = buflen;
-  meminfo.cmd     = W25QXXXJV_FAST_READ_QUADIO;
+  meminfo.cmd     = W25QXXXJV_READ;
   meminfo.addr    = address;
   meminfo.buffer  = buffer;
 

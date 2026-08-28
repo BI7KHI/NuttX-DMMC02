@@ -12,6 +12,17 @@ choice
 	default ARCH_CHIP_STM32H743ZI
 	depends on ARCH_CHIP_STM32H7
 
+config ARCH_CHIP_STM32H723VG
+	bool "STM32H723VG"
+	select STM32H7_STM32H7X3XX
+	select STM32H7_FLASH_CONFIG_G
+	select STM32H7_IO_CONFIG_V
+	select STM32H7_HAVE_FDCAN1
+	select STM32H7_HAVE_FDCAN2
+	---help---
+		STM32 H7 Cortex M7, 1024 Kb FLASH, 564 Kb SRAM,
+		LQFP100
+
 config ARCH_CHIP_STM32H743AG
 	bool "STM32H743AG"
 	select STM32H7_STM32H7X3XX
@@ -5592,3 +5603,9 @@ endmenu # FDCAN Driver
 
 
 endif # ARCH_CHIP_STM32H7
+
+config STM32H7_OSPI
+	bool "OCTOSPI"
+	default n
+	---help---
+		Enable OCTOSPI driver support (H723/H725/H730/H733).
