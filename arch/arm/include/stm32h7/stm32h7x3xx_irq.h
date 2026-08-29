@@ -137,6 +137,8 @@
 #define STM32_IRQ_FPU          (STM32_IRQ_FIRST + 81)   /* 81: CPU FPU */
 #define STM32_IRQ_UART7        (STM32_IRQ_FIRST + 82)   /* 82: UART7 global interrupt */
 #define STM32_IRQ_UART8        (STM32_IRQ_FIRST + 83)   /* 83: UART8 global interrupt */
+#define STM32_IRQ_UART9        (STM32_IRQ_FIRST + 155)  /* 155: UART9 global interrupt (H723 value line table) */
+#define STM32_IRQ_USART10      (STM32_IRQ_FIRST + 156)  /* 156: USART10 global interrupt (H723 value line table) */
 #define STM32_IRQ_SPI4         (STM32_IRQ_FIRST + 84)   /* 84: SPI4 global interrupt */
 #define STM32_IRQ_SPI5         (STM32_IRQ_FIRST + 85)   /* 85: SPI5 global interrupt */
 #define STM32_IRQ_SPI6         (STM32_IRQ_FIRST + 86)   /* 86: SPI6  global interrupt */
@@ -200,11 +202,14 @@
 #define STM32_IRQ_CRS          (STM32_IRQ_FIRST + 144)  /* 144: Clock Recovery System global interrupt */
 #define STM32_IRQ_RESERVED145  (STM32_IRQ_FIRST + 145)  /* 145: Reserved */
 #define STM32_IRQ_SAI4         (STM32_IRQ_FIRST + 146)  /* 146: SAI4  global interrupt */
-#define STM32_IRQ_RESERVED147  (STM32_IRQ_FIRST + 147)  /* 147: Reserved */
+#define STM32_IRQ_RESERVED147  (STM32_IRQ_FIRST + 147)  /* 147: Reserved (H723: DTS) */
 #define STM32_IRQ_RESERVED148  (STM32_IRQ_FIRST + 148)  /* 148: Reserved */
 #define STM32_IRQ_WKUP         (STM32_IRQ_FIRST + 149)  /* 149: WKUP1 to WKUP6 pins */
+#define STM32_IRQ_OCTOSPI2     (STM32_IRQ_FIRST + 150)  /* 150: OCTOSPI2 global interrupt */
+#define STM32_IRQ_FMAC         (STM32_IRQ_FIRST + 153)  /* 153: FMAC global interrupt */
+#define STM32_IRQ_CORDIC       (STM32_IRQ_FIRST + 154)  /* 154: CORDIC global interrupt */
 
-#define STM32_IRQ_NEXTINTS     150
+#define STM32_IRQ_NEXTINTS     157
 #define NR_IRQS                (STM32_IRQ_FIRST + STM32_IRQ_NEXTINTS)
 
 #endif /* __ARCH_ARM_INCLUDE_STM32H7_STM32H7X3XX_IRQ_H */

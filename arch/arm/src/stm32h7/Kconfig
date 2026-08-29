@@ -938,6 +938,20 @@ config STM32H7_UART8
 	select UART8_SERIALDRIVER
 	select STM32H7_USART
 
+config STM32H7_UART9
+	bool "UART9"
+	default n
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select UART9_SERIALDRIVER
+	select STM32H7_USART
+
+config STM32H7_USART10
+	bool "USART10"
+	default n
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select USART10_SERIALDRIVER
+	select STM32H7_USART
+
 endmenu # STM32H7 U[S]ART Selection
 endmenu # STM32H7 Peripheral Selection
 
@@ -1515,6 +1529,48 @@ config UART8_RXFIFO_THRES
 		overrun errors.
 
 endif # STM32H7_UART8
+
+if STM32H7_UART9
+
+config UART9_RS485
+	bool "RS-485 on UART9"
+	default n
+	---help---
+		Enable RS-485 interface on UART9.
+
+config UART9_RS485_DIR_POLARITY
+	int "UART9 RS-485 DIR pin polarity"
+	default 1
+	range 0 1
+	depends on UART9_RS485
+
+config UART9_RXFIFO_THRES
+	int "UART9 Rx FIFO Threshold"
+	default 3
+	range 0 5
+
+endif # STM32H7_UART9
+
+if STM32H7_USART10
+
+config USART10_RS485
+	bool "RS-485 on USART10"
+	default n
+	---help---
+		Enable RS-485 interface on USART10.
+
+config USART10_RS485_DIR_POLARITY
+	int "USART10 RS-485 DIR pin polarity"
+	default 1
+	range 0 1
+	depends on USART10_RS485
+
+config USART10_RXFIFO_THRES
+	int "USART10 Rx FIFO Threshold"
+	default 3
+	range 0 5
+
+endif # STM32H7_USART10
 
 config STM32H7_SERIAL_RXDMA_BUFFER_SIZE
 	int "Rx DMA buffer size"

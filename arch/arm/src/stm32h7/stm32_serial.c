@@ -447,6 +447,22 @@
 #  define UART8_TXBUFSIZE_ALGN TXDMA_BUF_ALIGN
 #endif
 
+#if !defined(CONFIG_UART9_TXDMA)
+#  define UART9_TXBUFSIZE_ADJUSTED  CONFIG_UART9_TXBUFSIZE
+#  define UART9_TXBUFSIZE_ALGN
+#else
+#  define UART9_TXBUFSIZE_ADJUSTED TXDMA_BUF_SIZE(CONFIG_UART9_TXBUFSIZE)
+#  define UART9_TXBUFSIZE_ALGN TXDMA_BUF_ALIGN
+#endif
+
+#if !defined(CONFIG_USART10_TXDMA)
+#  define USART10_TXBUFSIZE_ADJUSTED  CONFIG_USART10_TXBUFSIZE
+#  define USART10_TXBUFSIZE_ALGN
+#else
+#  define USART10_TXBUFSIZE_ADJUSTED TXDMA_BUF_SIZE(CONFIG_USART10_TXBUFSIZE)
+#  define USART10_TXBUFSIZE_ALGN TXDMA_BUF_ALIGN
+#endif
+
 #ifdef SERIAL_HAVE_TXDMA
 /* DMA priority */
 
@@ -910,6 +926,18 @@ static char g_uart7txbuffer[UART7_TXBUFSIZE_ADJUSTED] \
 static char g_uart8rxbuffer[CONFIG_UART8_RXBUFSIZE];
 static char g_uart8txbuffer[UART8_TXBUFSIZE_ADJUSTED] \
   UART8_TXBUFSIZE_ALGN;
+#endif
+
+#ifdef CONFIG_STM32H7_UART9
+static char g_uart9rxbuffer[CONFIG_UART9_RXBUFSIZE];
+static char g_uart9txbuffer[UART9_TXBUFSIZE_ADJUSTED] \
+  UART9_TXBUFSIZE_ALGN;
+#endif
+
+#ifdef CONFIG_STM32H7_USART10
+static char g_usart10rxbuffer[CONFIG_USART10_RXBUFSIZE];
+static char g_usart10txbuffer[USART10_TXBUFSIZE_ADJUSTED] \
+  USART10_TXBUFSIZE_ALGN;
 #endif
 
 /* This describes the state of the STM32 USART1 ports. */
@@ -1464,6 +1492,76 @@ static struct up_dev_s g_uart8priv =
 };
 #endif
 
+#ifdef CONFIG_STM32H7_UART9
+static struct up_dev_s g_uart9priv =
+{
+  .dev =
+    {
+#if CONSOLE_UART == 9
+      .isconsole = true,
+#endif
+      .recv      =
+      {
+        .size    = sizeof(g_uart9rxbuffer),
+        .buffer  = g_uart9rxbuffer,
+      },
+      .xmit      =
+      {
+        .size    = sizeof(g_uart9txbuffer),
+        .buffer  = g_uart9txbuffer,
+      },
+      .ops       = &g_uart_ops,
+      .priv      = &g_uart9priv,
+    },
+
+  .irq           = STM32_IRQ_UART9,
+  .rxftcfg       = CONFIG_UART9_RXFIFO_THRES,
+  .parity        = CONFIG_UART9_PARITY,
+  .bits          = CONFIG_UART9_BITS,
+  .stopbits2     = CONFIG_UART9_2STOP,
+  .baud          = CONFIG_UART9_BAUD,
+  .apbclock      = STM32_PCLK2_FREQUENCY,
+  .usartbase     = STM32_UART9_BASE,
+  .tx_gpio       = GPIO_UART9_TX,
+  .rx_gpio       = GPIO_UART9_RX,
+};
+#endif
+
+#ifdef CONFIG_STM32H7_USART10
+static struct up_dev_s g_usart10priv =
+{
+  .dev =
+    {
+#if CONSOLE_UART == 10
+      .isconsole = true,
+#endif
+      .recv      =
+      {
+        .size    = sizeof(g_usart10rxbuffer),
+        .buffer  = g_usart10rxbuffer,
+      },
+      .xmit      =
+      {
+        .size    = sizeof(g_usart10txbuffer),
+        .buffer  = g_usart10txbuffer,
+      },
+      .ops       = &g_uart_ops,
+      .priv      = &g_usart10priv,
+    },
+
+  .irq           = STM32_IRQ_USART10,
+  .rxftcfg       = CONFIG_USART10_RXFIFO_THRES,
+  .parity        = CONFIG_USART10_PARITY,
+  .bits          = CONFIG_USART10_BITS,
+  .stopbits2     = CONFIG_USART10_2STOP,
+  .baud          = CONFIG_USART10_BAUD,
+  .apbclock      = STM32_PCLK2_FREQUENCY,
+  .usartbase     = STM32_USART10_BASE,
+  .tx_gpio       = GPIO_USART10_TX,
+  .rx_gpio       = GPIO_USART10_RX,
+};
+#endif
+
 /* This table lets us iterate over the configured USARTs */
 
 static struct up_dev_s * const g_uart_devs[STM32_NSERIAL] =
@@ -1491,6 +1589,12 @@ static struct up_dev_s * const g_uart_devs[STM32_NSERIAL] =
 #endif
 #ifdef CONFIG_STM32H7_UART8
   [7] = &g_uart8priv,
+#endif
+#ifdef CONFIG_STM32H7_UART9
+  [8] = &g_uart9priv,
+#endif
+#ifdef CONFIG_STM32H7_USART10
+  [9] = &g_usart10priv,
 #endif
 };
 
@@ -2036,6 +2140,18 @@ static void up_set_apb_clock(struct uart_dev_s *dev, bool on)
     case STM32_UART8_BASE:
       rcc_en = RCC_APB1LENR_UART8EN;
       regaddr = STM32_RCC_APB1LENR;
+      break;
+#endif
+#ifdef CONFIG_STM32H7_UART9
+    case STM32_UART9_BASE:
+      rcc_en = RCC_APB2ENR_UART9EN;
+      regaddr = STM32_RCC_APB2ENR;
+      break;
+#endif
+#ifdef CONFIG_STM32H7_USART10
+    case STM32_USART10_BASE:
+      rcc_en = RCC_APB2ENR_USART10EN;
+      regaddr = STM32_RCC_APB2ENR;
       break;
 #endif
     }

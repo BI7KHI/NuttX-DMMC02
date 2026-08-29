@@ -795,6 +795,8 @@
 #define RCC_APB2RSTR_TIM1RST            (1 << 0)  /* RCC APB2RSTR: TIM1RST */
 #define RCC_APB2RSTR_TIM8RST            (1 << 1)  /* RCC APB2RSTR: TIM8RST */
 #define RCC_APB2RSTR_USART1RST          (1 << 4)  /* RCC APB2RSTR: USART1RST */
+#define RCC_APB2RSTR_UART9RST           (1 << 6)  /* RCC APB2RSTR: UART9RST */
+#define RCC_APB2RSTR_USART10RST         (1 << 7)  /* RCC APB2RSTR: USART10RST */
 #define RCC_APB2RSTR_USART6RST          (1 << 5)  /* RCC APB2RSTR: USART6RST */
 #define RCC_APB2RSTR_SPI1RST            (1 << 12) /* RCC APB2RSTR: SPI1RST */
 #define RCC_APB2RSTR_SPI4RST            (1 << 13) /* RCC APB2RSTR: SPI4RST */
@@ -953,6 +955,8 @@
                                                   /* Bits 2-3: Reserved */
 #define RCC_APB2ENR_USART1EN            (1 << 4)  /* Bit 4: RCC APB2ENR: USART1EN */
 #define RCC_APB2ENR_USART6EN            (1 << 5)  /* Bit 5: RCC APB2ENR: USART6EN */
+#define RCC_APB2ENR_UART9EN             (1 << 6)  /* Bit 6: RCC APB2ENR: UART9EN */
+#define RCC_APB2ENR_USART10EN           (1 << 7)  /* Bit 7: RCC APB2ENR: USART10EN */
                                                   /* Bits 6-11: Reserved */
 #define RCC_APB2ENR_SPI1EN              (1 << 12) /* Bit 12: RCC APB2ENR: SPI1EN */
 #define RCC_APB2ENR_SPI4EN              (1 << 13) /* Bit 13: RCC APB2ENR: SPI4EN  */
