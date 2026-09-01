@@ -1,3 +1,8 @@
+# Nuttx-DMMC02
+BI7KHI/PX4-Autopilot-DMMC02 的仓库子模块 platforms/nuttx/NuttX/nuttx 为NuttX 10.3.0+ 的 H723/UART9/UART10/OCTOSPI 补丁
+
+The BI7KHI/PX4-Autopilot-DMMC02 repository submodule platforms/nuttx/NuttX/nuttx is the H723/UART9/UART10/OCTOSPI patch for NuttX 10.3.0+.
+
 # APACHE NUTTX (INCUBATING)
 
 * Introduction
